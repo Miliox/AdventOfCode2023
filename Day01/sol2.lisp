@@ -8,7 +8,6 @@
 (defvar right_indexes)
 (defvar right_number)
 (defvar aux)
-
 (defvar total 0)
 
 (with-open-file (file "input.txt" :direction :input)
