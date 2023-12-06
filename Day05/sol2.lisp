@@ -112,19 +112,21 @@
            (chunk nil)
            (seeds nil))
         (loop for (beg len) on (car input) by #'cddr do
-            (setq seeds (expand-range beg len))
-            (loop while seeds do
-                (setq chunk nil)
-                (loop for i from 0 below 4096 while seeds do
-                    (push (pop seeds) chunk)
-                )
-                (setq chunk (reverse chunk))
-                (setq aux (seeds-to-lowest-location chunk (cdr input)))
-                (cond
-                    ((not lowest)
-                        (setq lowest aux))
-                    ((< aux lowest)
-                        (setq lowest aux))
+            (loop for s from beg below (+ beg len) by 2000000 do
+                (setq seeds (loop for i from s below (+ s 2000000) collect i))
+                (loop while seeds do
+                    (setq chunk nil)
+                    (loop for i from 0 below 2000000 while seeds do
+                        (push (pop seeds) chunk)
+                    )
+                    (setq chunk (reverse chunk))
+                    (setq aux (seeds-to-lowest-location chunk (cdr input)))
+                    (cond
+                        ((not lowest)
+                            (setq lowest aux))
+                        ((< aux lowest)
+                            (setq lowest aux))
+                    )
                 )
             )
         )
